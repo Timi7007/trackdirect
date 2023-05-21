@@ -1,16 +1,18 @@
 version: "3.9"
 services:
   aprsc:
-    build:
-      context: .
-      dockerfile: aprsc.dockerfile
-    ports:
-      - "10152:10152"
-      - "14580:14580"
-      - "10155:10155"
-      - "14501:14501"
+    image: timlukas/aprsc-docker:armhf
     volumes:
-      - $PWD/config/aprsc.conf:/opt/aprsc/etc/aprsc.conf
+      - "./aprsc-docker/aprsc:/etc/default/aprsc"
+      - "./aprsc-docker/aprsc.conf:/opt/aprsc/etc/aprsc.conf"
+      - "./aprsc-docker/logs:/opt/aprsc/logs"
+      - "./aprsc-docker/data:/opt/aprsc/data"
+    ports:
+      - 8080:8080
+      - 10152:10152
+      - 14501:14501
+      - 14580:14580
+    privileged: true
 
   collector:
     build:
